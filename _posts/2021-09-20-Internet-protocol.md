@@ -33,9 +33,35 @@ Start Point server (Client packet) → Internet(Node) → End point server<br>
 
 ## TCP, UDP
 
+### TCP (Transmission Control Protocol)
+- 連結指向　ー　TCP 3 way handshake　（仮想連結）<br>
+  ３段階に分けてデーター送信を行う。　syn → syn+ack → ack
+- データー送信保証<br>
+  データーを受信した場合、応答する
+- 順次保証<br>
+  順次にパッケが来なかった場合、順次に送るよう再度要請する
+- 信頼できるprotocol<br>
+- 現在はほとんどがTCPを利用している<br>
 
+### UDP (User Datagram Protocol)
+- 連結指向　ー　TCP 3 way handshake　（仮想連結）X<br>
+- データー送信保証X<br>
+- 順次保証X<br>
+- データー送信及び順番が保証されないが、早い<br>
+IPとほぼ一緒。＋PORT＋checksomeぐらい追加<br>
+  APPで追加作業が必要
 
 ## PORT
+マンションの号室的な概念
+マンション（PC）来たネットワークを各正しい部屋（PORT）送る機能<br>
+0~1023は良く知られているため使わない方がいい
+- FTP- 20,21
+- TELNET - 23
+- HTTP - 30
+- HTTPS - 443
 
-## DNS
+## DNS (Domain Name System)
+- 電話帳的な
+- ドメイン名をIPアドレスに変換
+
 
