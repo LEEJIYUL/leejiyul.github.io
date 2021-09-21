@@ -64,10 +64,10 @@ IPとほぼ一緒。＋PORT＋checksomeぐらい追加<br>
 
 # URLとウェブリクエストの流れ
 ## URI(Uniform Resource Identifier)
-URIはLocator,Name又は二つとも追加で分類される
-URL：Uniform Resource　Locator　ほとんどこちらを利用
-リソースがある位置を指定
-URN：Uniform Resource　Name
+URIはLocator,Name又は二つとも追加で分類される<br>
+URL：Uniform Resource　Locator　ほとんどこちらを利用<br>
+リソースがある位置を指定<br>
+URN：Uniform Resource　Name<br>
 リソースに名前をつける
 
 ## URL
