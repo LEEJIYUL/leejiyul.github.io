@@ -154,3 +154,139 @@ scheme://[userInfo@]host[:port][/path]?[?query][#fragment]
   - 活用：自動復旧メカニズム
 - キャッシュ可能(Cacheable Methods)
   - 主にGET,HEADがキャッシュで利用される
+  
+## HTTP State Code
+### 2xx (Successful)
+クライアントのリクエストを正常に処理　
+- 200 OK
+- 201 Created
+- 202 Accepted　バッチ処理など
+- 204 No Content
+### 3xx (Redirection)
+永久的Redirection
+- 301 Moved Permanent GETでリダイレクト
+- 308 Permanent Redirect　POSTで本文維持
+
+temp Redirection
+- 302 Found　Getメソッドに変換可能、ボディー削除可能性ある　メインは302
+- 307 Temporary Redirect　302と一緒　ただし、メソッドが変わってはいけない
+- 303 See Other　GETに変更しなければならない
+
+PRG: POST/Redirect/Get
+- Postで注文後Web更新による重複防止
+- Postで注文後に注文結果画面をGETメソッドでリダイレクト
+- 更新しても結果画面GETで照会
+- 重複注文代わりに結果画面だけGETでリクエスト
+
+- 304 Not Modified
+  - キャッシュを目的に使用
+  - クライアントにリソースが修正されてない事を知らす。したがって、クライアントはローカルPCにSaveされたキャッシュを利用する
+  - 304　レスポンスにはメッセージbodyを含めてはいけない
+  - 条件付きGET,HEADリクエスト時利用
+  
+### 4xx (Client Error)
+- クライアントリクエストが文法などでサーバーがリクエストを処理できない時
+- クライアントはリクエストを再度確認し、リクエストする必要がある。
+- パラメーターが間違えた時、APISPECが合わない時
+
+- 401 Unauthorized 認証されない
+- 403 Forbidden サーバーがリクエストを理解したが、承認を拒む
+- 404 Not Found
+  
+### 5xx (Server Error)
+- 500 server error
+- 503 Service Unavailable
+
+## HTTP HEADER
+### Content-type
+표현 데이터의 형식 설명
+- 미디어 타입, 문자 인코딩
+  - text/html; charset=utf-8
+  - application/json
+  - image/jpg
+  
+### Content-Encoding
+표현 데이터 인코딩
+- 표현 데이터를 압축하기 위해 사용
+- 데이터는 전달하는 곳에서 압축 후 인코딩 헤더 추가
+- 데이터를 읽는 쪽에서 인코딩 헤더의 정보로 압축 해체
+- 예)
+  - gzip
+  - deflate
+  - identify
+  
+### Content-Language
+표현 데이터의 자연 언어
+- 표현 데이터의 자연 언어를 표현
+- 예)
+  - ko
+  - jp
+  - en
+
+### Content-Length
+표현 데이터의 길이
+- 바이트 단위
+- Transfer-Encoding(전송 코딩)을 사용하면 content-Length을 사용하면 안됨.
+
+### 협상(content-Negotiation)
+클라이언트가 선호하는 표현 요청
+- Accept : 클라이언트가 선호하는 미디어 타입 전달
+- Accept-Charset : 클라이언트가 선호하는 문자 인코딩
+- Accept-Encoding : 클라이언트가 선호하는 압축 인코딩
+- Accept-Language : 클라이언트가 선호하는 자연 언어
+- 협상 헤더는 요청시에만 사용 가능
+
+### 전송 방식
+- 단순 전송
+  - Content-Length 컨텐츠 길이를 알고 있을 때 
+- 압축 전송
+  - Content-Encoding 압축정보
+- 분할 전송
+  - Transfer-Encoding: chunked
+  - 용량이 큰것을 나누어서 전송하는 법
+  - 이 때는 content-length을 넣으면 안됨.
+- 범위 전송
+  - Range, Content-Range
+  - 범위를 지정해서 요청 가능함. 중단 된 시점부터 다시 받을 수 있
+  
+### 일반 정보
+- From : 유저 에이전트의 이메일 정보
+  - 일반적으로 잘 사용되지 않음.
+  - 검색 엔진 같은 곳에서 주로 사용
+  - 요청에서 사용
+  
+- Referer 이전 웹 페이지 주소
+  - 현재 요청된 페이지의 이전 웹 페이지 주소
+  - A -> B로 이동하는 경우 B를 요청할 때 Referer:A를 포함해서 요청
+  - Referer를 사용해서 유입 경로 분석 가능 예) 데이터 분석
+  - 요청에서 사용가능 
+  - referer는 단어 referrer 오타
+  
+- User-Agent 유저 에이전트 애플리케이션 정보
+  - 내 웹브라우저 혹은 클라이언트 애플리케이션 정보
+  - 통계 정보 
+  - 어떤 종류의 브라우저에서 장애가 발생하는지 파악 가능
+  - 요청에서 사용
+  
+- Server 요청을 처리하는 Origin 서버의 소프트 웨어 정보
+  - Server : Apache/2.2.22(Denian)
+  - server:nginx
+  - 응답에서 사용
+  
+- Date 메세지가 발생한 날짜와 시간
+  - 응답에서 사용
+  
+### 특별한 정보 
+- Host 요청한 호스트 정보 (도메인) 중요 필수값.
+  - 요청에서 사용
+  - 필수
+  - 하나의 서버가 여러 도메인을 처리해야할 때
+    - ㅁ
+  - 하나의 IP 주소에 여러 도메인이 적용되어 있을 때
+
+- Location: page redirection
+
+- Allow : 허용 가능한 HTTP 메서드
+
+- Retry-After : 유저 에이전트가 다음 요청을 하기까지 기다려야하는 시간
+  
