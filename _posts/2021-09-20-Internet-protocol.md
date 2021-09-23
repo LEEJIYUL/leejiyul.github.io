@@ -89,3 +89,39 @@ scheme://[userInfo@]host[:port][/path]?[?query][#fragment]
   - key=value
   - ?でスタート、＆で追加機能
   - query parameter, query stringで呼ばれる。ウェブサーバーに提供するパラメーター、文字形
+
+# HTTP
+## HTTPメッセージに全てが送信可能
+- HTML, TEXT
+- IMAGE, 音声、映像、ファイル
+- Json、XML（API）
+- サーバー間送信
+  
+### HTTP　version
+- HTTP/1.1 最も広く使われている
+- HTTP/2 2015年性能改善
+- HTTP/3 TCPの代わりにUDP使用、性能改善
+
+### HTTPの特徴
+- クライアントサーバー構造
+  - Request, Response構造
+  - クライアントはサーバーにリクエストし、レスポンスを待つ
+  - サーバーがレスポンスを作成し応答
+- Stateless、非連結性
+  - サーバーがクライアントの状態を保存しない
+  - 長所：サーバーの拡張性が高い(scale out)
+  - 短所：クライアントが追加データー送信
+- HTTPメッセージ
+- Simple,拡張可能
+  
+### 非連結性
+- HTTPは基本が連結を維持しないモデル
+- 一般的に秒単位以下の早い速度で応答
+- １時間に数千人がサービスを利用しても、サーバーで同時に処理するリクエストは少ない
+- サーバーリソースを効率よく使える
+
+非連結性の限界と克服
+- TCP/IPを毎回しなきゃいけない　3 way handshake時間の発生
+- webサイトの場合、HTMLだけではなくJS、CSS,IMAGEなど数多いリソースを一緒にダウンロードする為、時間が長くなる
+- 現在は、HTTP　Persistent Connectionsで問題を解決
+- HTTP/2,HTTP/3でもっと最適化している
